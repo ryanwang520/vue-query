@@ -41,7 +41,7 @@ describe('test single string arg', () => {
     const fetcher = () =>
       new Promise(resolve => {
         console.log('fetch');
-        if (context.path == newPath) {
+        if (context.path === newPath) {
           resolve({ status: 404 });
         }
         resolve({ status: 200 });
