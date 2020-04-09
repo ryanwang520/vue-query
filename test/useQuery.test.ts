@@ -39,7 +39,7 @@ describe('test single string arg', () => {
     });
     let newPath = 'https://gitlab.com';
     const fetcher = () =>
-      new Promise(resolve => {
+      new Promise<{ status: number }>(resolve => {
         console.log('fetch');
         if (context.path === newPath) {
           resolve({ status: 404 });

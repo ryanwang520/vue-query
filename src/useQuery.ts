@@ -1,13 +1,13 @@
 import { computed, reactive, watch, toRefs, Ref } from '@vue/composition-api';
 
 type Refs<Data> = {
-  [K in keyof Data]: Data[K] extends Ref<infer V> ? Ref<V> : Ref<Data[K]>;
+  [K in keyof Data]: Ref<Data[K]>;
 };
 
-type Response = Refs<{
-  data: any;
+type UseQueryReturn<K> = Refs<{
   loading: boolean;
-  error: Error | null;
+  data: K | null;
+  error: any;
   isInitial: boolean;
 }> & { refetch: () => void };
 
@@ -15,41 +15,36 @@ type Response = Refs<{
 export default function useQuery<K>(
   computedPath: () => string,
   fetcher: (arg: string) => Promise<K>
-): Response;
+): UseQueryReturn<K>;
 
 // multi args
 export default function useQuery<T extends readonly any[], K>(
   args: T,
   fetcher: (...args: T) => Promise<K>
-): Response;
+): UseQueryReturn<K>;
 
 // computed path
 export default function useQuery<K>(
   path: string,
   fetcher: (arg: string) => Promise<K>
-): Response;
+): UseQueryReturn<K>;
 
 // computed mulitple args
 export default function useQuery<T extends any[], M extends T, K>(
   computed: () => T,
   fetcher: (...args: M) => Promise<K>
-): Response;
+): UseQueryReturn<K>;
 
 export default function useQuery<T extends readonly any[], K>(
   computedFnOrArgs: T | (() => T),
   fetcher: (...args: any) => Promise<K>
-): Response {
+) {
   let argRef: Readonly<Ref<Readonly<T>>> | null = null;
   if (typeof computedFnOrArgs == 'function') {
     argRef = computed(computedFnOrArgs);
   }
 
-  const stateObj: {
-    data: null;
-    loading: boolean;
-    error: null;
-    isInitial: boolean;
-  } = {
+  const stateObj = {
     data: null,
     loading: true,
     error: null,
