@@ -36,7 +36,7 @@ export default function useQuery<T extends any[], M extends T, K>(
 ): Response;
 
 export default function useQuery<T extends readonly any[], K>(
-  computedFnOrArgs: string | (() => string) | T | (() => T),
+  computedFnOrArgs: T | (() => T),
   fetcher: (...args: any) => Promise<K>
 ): Response {
   let argRef:
@@ -44,7 +44,6 @@ export default function useQuery<T extends readonly any[], K>(
     | Readonly<Ref<Readonly<string>>>
     | null = null;
   if (typeof computedFnOrArgs == 'function') {
-    /// @ts-ignore
     argRef = computed(computedFnOrArgs);
   }
 
@@ -85,7 +84,6 @@ export default function useQuery<T extends readonly any[], K>(
   };
 
   if (argRef) {
-    // @ts-ignore
     watch(argRef, fetchData);
   } else {
     fetchData();
