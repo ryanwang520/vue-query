@@ -39,22 +39,27 @@ export default function useQuery<T extends readonly any[], K>(
   computedFnOrArgs: T | (() => T),
   fetcher: (...args: any) => Promise<K>
 ): Response {
-  let argRef:
-    | Readonly<Ref<Readonly<T>>>
-    | Readonly<Ref<Readonly<string>>>
-    | null = null;
+  let argRef: Readonly<Ref<Readonly<T>>> | null = null;
   if (typeof computedFnOrArgs == 'function') {
     argRef = computed(computedFnOrArgs);
   }
 
-  const state = reactive({
+  const stateObj: {
+    data: null;
+    loading: boolean;
+    error: null;
+    isInitial: boolean;
+  } = {
     data: null,
     loading: true,
     error: null,
     isInitial: true,
-  });
+  };
+
+  const state = reactive(stateObj);
 
   const fetchData = () => {
+    state.error = null;
     state.loading = true;
     let args: readonly any[];
     if (argRef) {
