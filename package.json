@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "tsdx watch",
+    "publish": "npm publish --access public",
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
