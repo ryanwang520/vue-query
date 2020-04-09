@@ -66,3 +66,39 @@ describe('test single string arg', () => {
     expect(result.data.value).toEqual({ status: 404 });
   });
 });
+
+describe('test multi arg', () => {
+  test('normal arg', async () => {
+    const a = 'path';
+    const b = 'args';
+    const fetcher = (a: string, b: string) => Promise.resolve({ a, b });
+    const result = useQuery([a, b], fetcher);
+    expect(result.data.value).toBe(null);
+    expect(result.error.value).toBe(null);
+    expect(result.isInitial.value).toBe(true);
+    expect(result.loading.value).toBe(true);
+
+    await flushPromises();
+    expect(result.data.value).toEqual({ a, b });
+    expect(result.error.value).toBe(null);
+    expect(result.isInitial.value).toBe(false);
+    expect(result.loading.value).toBe(false);
+  });
+
+  test('fn arg', async () => {
+    const a = 'path';
+    const b = 'args';
+    const fetcher = (a: string, b: string) => Promise.resolve({ a, b });
+    const result = useQuery(() => [a, b], fetcher);
+    expect(result.data.value).toBe(null);
+    expect(result.error.value).toBe(null);
+    expect(result.isInitial.value).toBe(true);
+    expect(result.loading.value).toBe(true);
+
+    await flushPromises();
+    expect(result.data.value).toEqual({ a, b });
+    expect(result.error.value).toBe(null);
+    expect(result.isInitial.value).toBe(false);
+    expect(result.loading.value).toBe(false);
+  });
+});
