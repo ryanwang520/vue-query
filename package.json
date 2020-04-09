@@ -36,11 +36,12 @@
   "author": "Ryan Wang",
   "module": "dist/vue-query.esm.js",
   "devDependencies": {
-    "@vue/composition-api": "^0.5.0",
     "@types/jest": "^25.2.1",
+    "@vue/composition-api": "^0.5.0",
     "husky": "^4.2.3",
     "tsdx": "^0.13.1",
     "tslib": "^1.11.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "vue": "^2.6.11"
   }
 }
