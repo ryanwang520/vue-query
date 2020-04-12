@@ -1,27 +1,76 @@
-# TSDX Bootstrap
+# vue-query [![npm package](https://badgen.net/npm/v/@baoshishu/vue-query)](https://www.npmjs.com/package/@baoshishu/vue-query) [![Actions Status](https://github.com/baoshishu/vue-query/workflows/CI/badge.svg)](https://github.com/baoshishu/vue-query/actions)
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+> Composition API for fetching asynchronous data in Vue.
 
-## Local Development
+**Depends on [@vue/composition-api](https://github.com/vuejs/composition-api)**
 
-Below is a list of commands you will probably find useful.
+## Installation
 
-### `npm start` or `yarn start`
+```sh
+npm install @baoshishu/vue-query
+```
 
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
+## Usage
 
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
+```vue
+<template>
+  <div>
+    <div v-if="error">error!</div>
+    <div v-else-if="loading">...loading</div>
+    <pre v-else>{{ JSON.stringify(data) }}</pre>
+  </div>
+</template>
 
-Your library will be rebuilt if you make edits.
+<script>
+import { createComponent } from '@vue/composition-api';
+import { useQuery } from '@baoshishu/vue-query';
 
-### `npm run build` or `yarn build`
+export default createComponent({
+  setup() {
+    const fetcher = name =>
+      fetch(`https://api.github.com/users/{name}`).then(res => res.json());
+    return useQuery(name, fetcher);
+  },
+});
+</script>
+```
 
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
+If first argument of `useQuery` is a function, the result of this function will be passed to `fetcher` function, and it will be reactive.
 
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
+```vue
+<template>
+  <div>
+    <div v-if="error">error!</div>
+    <div v-else-if="loading">...loading</div>
+    <pre v-else>{{ JSON.stringify(data) }}</pre>
+  </div>
+</template>
+<script>
+export default {
+  setup(props, context) {
+    const fetcher = ({ path, params }) => {
+      return fetch(
+        `https://api.github.com/users?per_page=${params.per_page}&page=${params.page}`
+      ).then(res => res.json());
+    };
+    return useQuery(
+      () => ({
+        path: '/users',
+        params: { ...context.root.$route.query },
+      }),
+      fetcher
+    );
+  },
+};
+</script>
+```
 
-### `npm test` or `yarn test`
+When _route_ changes page or per*page, as \_route* is reactive, new request would be fired to fetch users of new `page` or `per_page`
 
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
+## Related
+
+- [@vue/composition-api](https://github.com/vuejs/composition-api)
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
