@@ -67,6 +67,34 @@ export default {
 
 When _route_ changes page or per*page, as \_route* is reactive, new request would be fired to fetch users of new `page` or `per_page`
 
+### Array Keys
+
+When a query needs more information to uniquely describe its data, you can use an array to describe it, and it will be destructed as argumets to `fetcher` function.
+
+```javascript
+const fetcher = (a, b) => Promise.resolve(a, b);
+useQuery(['a', 'b'], fetcher);
+```
+
+If the first argument is a function which returns an array,
+this query will be reactive, you can think of this argument as the `getter` passed to `computed`.
+
+```javascript
+const fetcher = (a, b) => Promise.resolve(a, b);
+
+import { reactive } from '@vue/composition-api';
+var params = reactive({ page: 1, per_page: 10 });
+
+const fetcher = (page, per_page) => Promise.resolve(page, per_page);
+
+useQuery(() => [params.page, params.per_page], fetcher);
+
+// if we change page, fetcher will rerun
+params.page = 2;
+
+// fetcher(2, 10) will be called
+```
+
 ## Related
 
 - [@vue/composition-api](https://github.com/vuejs/composition-api)
