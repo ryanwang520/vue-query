@@ -84,7 +84,7 @@ export default function useQuery<T extends readonly any[], K>(
   };
 
   if (argRef) {
-    watch(argRef, fetchData);
+    watch(argRef, fetchData, { immediate: true });
   } else {
     fetchData();
   }
