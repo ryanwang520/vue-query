@@ -3,7 +3,7 @@
 > Composition API for fetching asynchronous data in Vue.
 
 - 🔥 Simple API
-- 🎗 TypeScript Support
+- 🎗TypeScript Support
 - 💪 Hide the Complexity of Reactive
 
 **Depends on [@vue/composition-api](https://github.com/vuejs/composition-api)**
