@@ -89,7 +89,10 @@ describe('test multi arg', () => {
     const a = 'path';
     const b = 'args';
     const fetcher = (a: string, b: string) => Promise.resolve({ a, b });
-    const result = useQuery(() => [a, b], fetcher);
+    const result = useQuery<{ a: string; b: string }, string[]>(
+      () => [a, b],
+      fetcher
+    );
     expect(result.data.value).toBe(null);
     expect(result.error.value).toBe(null);
     expect(result.isInitial.value).toBe(true);
