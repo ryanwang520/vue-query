@@ -1,4 +1,11 @@
-import { computed, reactive, watch, toRefs, Ref } from '@vue/composition-api';
+import {
+  computed,
+  reactive,
+  watch,
+  toRefs,
+  Ref,
+  isReactive,
+} from '@vue/composition-api';
 
 type Refs<Data> = {
   [K in keyof Data]: Ref<Data[K]>;
@@ -86,7 +93,11 @@ export default function useQuery<T extends readonly any[], K>(
   if (argRef) {
     watch(argRef, fetchData, { immediate: true });
   } else {
-    watch(computedFnOrArgs, fetchData, { immediate: true });
+    if (isReactive(computedFnOrArgs)) {
+      watch(computedFnOrArgs, fetchData, { immediate: true });
+    } else {
+      fetchData();
+    }
   }
 
   return { ...toRefs(state), refetch: fetchData };
