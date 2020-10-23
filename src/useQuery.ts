@@ -86,7 +86,7 @@ export default function useQuery<T extends readonly any[], K>(
   if (argRef) {
     watch(argRef, fetchData, { immediate: true });
   } else {
-    fetchData();
+    watch(computedFnOrArgs, fetchData, { immediate: true });
   }
 
   return { ...toRefs(state), refetch: fetchData };
