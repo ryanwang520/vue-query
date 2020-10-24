@@ -39,6 +39,7 @@
   "author": "Ryan Wang",
   "module": "dist/vue-query.esm.js",
   "devDependencies": {
+    "serialize-javascript": "^3.1.0",
     "@types/jest": "^26.0.15",
     "@vue/composition-api": "1.0.0-beta.18",
     "husky": "^4.3.0",
