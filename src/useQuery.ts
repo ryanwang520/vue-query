@@ -18,33 +18,44 @@ type UseQueryReturn<K> = Refs<{
   isInitial: boolean;
 }> & { refetch: () => void };
 
+const defaultConfig: Config = {};
+
+type Config = {
+  enabled?: () => any;
+};
+
 // computed mulitple args
 export default function useQuery<K = any, T extends any[] = any[]>(
   computed: () => T,
-  fetcher: (...args: T) => Promise<K>
+  fetcher: (...args: T) => Promise<K>,
+  config?: Config
 ): UseQueryReturn<K>;
 
 // computed single arg
 export default function useQuery<K = any, T = any>(
   computed: () => T,
-  fetcher: (arg: T) => Promise<K>
+  fetcher: (arg: T) => Promise<K>,
+  config?: Config
 ): UseQueryReturn<K>;
 
 // multi args
 export default function useQuery<K = any, T extends any[] = any[]>(
   args: T,
-  fetcher: (...args: T) => Promise<K>
+  fetcher: (...args: T) => Promise<K>,
+  config?: Config
 ): UseQueryReturn<K>;
 
 // single arg
 export default function useQuery<K, T>(
   arg: T,
-  fetcher: (arg: T) => Promise<K>
+  fetcher: (arg: T) => Promise<K>,
+  config?: Config
 ): UseQueryReturn<K>;
 
 export default function useQuery<T extends readonly any[], K>(
   computedFnOrArgs: T | (() => T),
-  fetcher: (...args: any) => Promise<K>
+  fetcher: (...args: any) => Promise<K>,
+  config: Config = defaultConfig
 ) {
   let argRef: Readonly<Ref<Readonly<T>>> | null = null;
   if (typeof computedFnOrArgs == 'function') {
@@ -60,7 +71,12 @@ export default function useQuery<T extends readonly any[], K>(
 
   const state = reactive(stateObj);
 
+  let condition: Ref<boolean> | null = null;
+
   const fetchData = () => {
+    if (condition != null && !condition.value) {
+      return;
+    }
     state.error = null;
     state.loading = true;
     let args: readonly any[];
@@ -89,6 +105,12 @@ export default function useQuery<T extends readonly any[], K>(
         state.isInitial = false;
       });
   };
+  // conditionally fetch
+  if (config.enabled != null) {
+    condition = computed(config.enabled);
+
+    watch(condition, fetchData);
+  }
 
   if (argRef) {
     watch(argRef, fetchData, { immediate: true });

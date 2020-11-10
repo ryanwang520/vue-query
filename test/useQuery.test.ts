@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import useQuery from '../src/useQuery';
-import VueCompositionApi, { reactive } from '@vue/composition-api';
+import VueCompositionApi, { reactive, ref } from '@vue/composition-api';
 
 Vue.config.productionTip = false;
 
@@ -103,5 +103,28 @@ describe('test multi arg', () => {
     expect(result.error.value).toBe(null);
     expect(result.isInitial.value).toBe(false);
     expect(result.loading.value).toBe(false);
+  });
+});
+
+describe('test conditionally fetch', () => {
+  test('condition', async () => {
+    const path = 'https://github.com';
+    const response = { status: 200 };
+    const fetcher = () => Promise.resolve(response);
+
+    let result = useQuery(path, fetcher);
+    expect(result.data.value).toBe(null);
+    await flushPromises();
+    expect(result.data.value).toBe(response);
+
+    const condition = ref(false);
+    result = useQuery(path, fetcher, { enabled: () => condition.value });
+    expect(result.data.value).toBe(null);
+    await flushPromises();
+    expect(result.data.value).toBe(null);
+    condition.value = true;
+    expect(result.data.value).toBe(null);
+    await flushPromises();
+    expect(result.data.value).toBe(response);
   });
 });
