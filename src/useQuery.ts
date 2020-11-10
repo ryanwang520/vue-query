@@ -64,7 +64,7 @@ export default function useQuery<T extends readonly any[], K>(
 
   const stateObj = {
     data: null,
-    loading: true,
+    loading: false,
     error: null,
     isInitial: true,
   };
@@ -76,6 +76,10 @@ export default function useQuery<T extends readonly any[], K>(
   let conditionEnabledOnce = false;
 
   const fetchData = () => {
+    // avoid duplicate fetch
+    if (state.loading) {
+      return;
+    }
     if (condition != null) {
       // if already fetched, not skip fetch any more
       if (!condition.value && !conditionEnabledOnce) return;
