@@ -117,8 +117,18 @@ describe('test conditionally fetch', () => {
     await flushPromises();
     expect(result.data.value).toBe(response);
 
-    const condition = ref(false);
+    let condition = ref(false);
     result = useQuery(path, fetcher, { enabled: () => condition.value });
+    expect(result.data.value).toBe(null);
+    await flushPromises();
+    expect(result.data.value).toBe(null);
+    condition.value = true;
+    expect(result.data.value).toBe(null);
+    await flushPromises();
+    expect(result.data.value).toBe(response);
+
+    condition = ref(false);
+    result = useQuery(path, fetcher, { enabled: condition });
     expect(result.data.value).toBe(null);
     await flushPromises();
     expect(result.data.value).toBe(null);
