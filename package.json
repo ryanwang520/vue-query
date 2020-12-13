@@ -1,5 +1,5 @@
 {
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,13 +39,16 @@
   "author": "Ryan Wang",
   "module": "dist/vue-query.esm.js",
   "devDependencies": {
-    "serialize-javascript": "^3.1.0",
     "@types/jest": "^26.0.15",
     "@vue/composition-api": "1.0.0-beta.18",
     "husky": "^4.3.0",
+    "serialize-javascript": "^3.1.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.0.3",
     "typescript": "^4.0.3",
     "vue": "^2.6.12"
+  },
+  "dependencies": {
+    "vue-demi": "^0.4.5"
   }
 }
