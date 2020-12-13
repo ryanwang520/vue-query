@@ -6026,6 +6026,11 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+vue-demi@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.4.5.tgz#ea422a4468cb6321a746826a368a770607f87791"
+  integrity sha512-51xf1B6hV2PfjnzYHO/yUForFCRQ49KS8ngQb5T6l1HDEmfghTFtsxtRa5tbx4eqQsH76ll/0gIxuf1gei0ubw==
+
 vue@^2.6.12:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"

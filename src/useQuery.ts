@@ -1,11 +1,4 @@
-import {
-  computed,
-  reactive,
-  watch,
-  toRefs,
-  Ref,
-  isReactive,
-} from '@vue/composition-api';
+import { computed, reactive, watch, toRefs, Ref, isReactive } from 'vue-demi';
 
 type Refs<Data> = {
   [K in keyof Data]: Ref<Data[K]>;
