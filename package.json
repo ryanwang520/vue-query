@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -22,7 +22,6 @@
   },
   "peerDependencies": {
     "vue": "^2.6.0 || >=3.0.0-rc.1"
-
   },
   "husky": {
     "hooks": {

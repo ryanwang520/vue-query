@@ -107,7 +107,11 @@ export default function useQuery<T extends readonly any[], K>(
   if (config.enabled != null) {
     condition = deriveRef(config.enabled);
 
-    watch(condition, fetchData);
+    watch(condition, val => {
+      if (val) {
+        fetchData();
+      }
+    });
   }
 
   if (argRef) {
