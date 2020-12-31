@@ -13,42 +13,43 @@ type UseQueryReturn<K> = Refs<{
 
 const defaultConfig: Config = {};
 
-type Config = {
+type Config<K = unknown> = {
   enabled?: (() => any) | Ref;
+  success?(data: K): void;
 };
 
 // computed mulitple args
 export default function useQuery<K = any, T extends any[] = any[]>(
   computed: () => T,
   fetcher: (...args: T) => Promise<K>,
-  config?: Config
+  config?: Config<K>
 ): UseQueryReturn<K>;
 
 // computed single arg
 export default function useQuery<K = any, T = any>(
   computed: () => T,
   fetcher: (arg: T) => Promise<K>,
-  config?: Config
+  config?: Config<K>
 ): UseQueryReturn<K>;
 
 // multi args
 export default function useQuery<K = any, T extends any[] = any[]>(
   args: T,
   fetcher: (...args: T) => Promise<K>,
-  config?: Config
+  config?: Config<K>
 ): UseQueryReturn<K>;
 
 // single arg
 export default function useQuery<K, T>(
   arg: T,
   fetcher: (arg: T) => Promise<K>,
-  config?: Config
+  config?: Config<K>
 ): UseQueryReturn<K>;
 
 export default function useQuery<T extends readonly any[], K>(
   computedFnOrArgs: T | (() => T),
   fetcher: (...args: any) => Promise<K>,
-  config: Config = defaultConfig
+  config: Config<K> = defaultConfig
 ) {
   let argRef: Readonly<Ref<Readonly<T>>> | null = null;
   if (typeof computedFnOrArgs == 'function') {
@@ -94,6 +95,7 @@ export default function useQuery<T extends readonly any[], K>(
     fetcher(...args)
       .then((res: any) => {
         state.data = res;
+        config.success?.(res);
       })
       .catch((error: any) => {
         state.error = error;
