@@ -1,4 +1,4 @@
-import { computed, reactive, watch, toRefs, Ref, isReactive } from 'vue-demi';
+import { computed, reactive, watch, toRefs, Ref } from 'vue-demi';
 
 type Refs<Data> = {
   [K in keyof Data]: Ref<Data[K]>;
@@ -51,7 +51,7 @@ export default function useQuery<T extends readonly any[], K>(
   fetcher: (...args: any) => Promise<K>,
   config: Config<K> = defaultConfig
 ) {
-  let argRef: Readonly<Ref<Readonly<T>>> | null = null;
+  let argRef: Ref<T> | null = null;
   if (typeof computedFnOrArgs == 'function') {
     argRef = computed(computedFnOrArgs);
   }
@@ -63,7 +63,12 @@ export default function useQuery<T extends readonly any[], K>(
     isInitial: true,
   };
 
-  const state = reactive(stateObj);
+  const state = reactive<{
+    data: null | T;
+    loading: boolean;
+    error: any;
+    isInitial: boolean;
+  }>(stateObj);
 
   let condition: Ref | null = null;
 
@@ -72,7 +77,7 @@ export default function useQuery<T extends readonly any[], K>(
     if (state.loading) {
       return;
     }
-    if (condition != null && !condition.value) {
+    if (condition && !condition.value) {
       return;
     }
 
@@ -119,11 +124,7 @@ export default function useQuery<T extends readonly any[], K>(
   if (argRef) {
     watch(argRef, fetchData, { immediate: true });
   } else {
-    if (isReactive(computedFnOrArgs)) {
-      watch(computedFnOrArgs, fetchData, { immediate: true });
-    } else {
-      fetchData();
-    }
+    fetchData();
   }
 
   return { ...toRefs(state), refetch: fetchData };
