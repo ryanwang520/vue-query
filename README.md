@@ -99,9 +99,52 @@ const fetcher = (page, per_page) => Promise.resolve(page, per_page);
 useQuery(() => [params.page, params.per_page], fetcher);
 ```
 
+### Query config
+
+Fetch success callback.
+
+```javascript
+import { createComponent } from '@vue/composition-api';
+import { useQuery } from '@baoshishu/vue-query';
+
+export default createComponent({
+  setup() {
+    const fetcher = name =>
+      fetch(`https://api.github.com/users/${name}`).then(res => res.json());
+    return useQuery(name, fetcher, { success(){
+      console.log('fetch success')
+    }});
+  },
+});
+```
+
+Conditionally fetch data, `condition` can be a `Ref` or normal tracking function.
+
+```javascript
+import { createComponent } from '@vue/composition-api';
+import { useQuery } from '@baoshishu/vue-query';
+
+export default createComponent({
+  setup() {
+    condition = ref(false);
+    const fetcher = name =>
+      fetch(`https://api.github.com/users/${name}`).then(res => res.json());
+    
+    setTimeout(()=>{
+      condition.value = true // only fetch if condition is set to true
+
+    }, 1000)
+    return useQuery(name, fetcher, {
+      enabled: condition,
+    });
+  },
+});
+```
+
 ## Related
 
 - [@vue/composition-api](https://github.com/vuejs/composition-api)
+- [vue-demi](https://github.com/vueuse/vue-demi)
 
 ## License
 
