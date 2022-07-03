@@ -1,4 +1,4 @@
-import { computed, reactive, watch, toRefs, Ref } from 'vue-demi';
+import { computed, reactive, watch, toRefs, Ref } from 'vue';
 
 type Refs<Data> = {
   [K in keyof Data]: Ref<Data[K]>;

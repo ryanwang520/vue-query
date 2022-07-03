@@ -1,4 +1,4 @@
 import useQuery from './useQuery';
 export { useQuery };
 
-export { defineComponent } from 'vue-demi';
+export { defineComponent } from 'vue';

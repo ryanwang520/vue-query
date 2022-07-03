@@ -1,13 +1,9 @@
 import Vue from 'vue';
 
 import useQuery from '../src/useQuery';
-import VueCompositionApi, { reactive, ref } from '@vue/composition-api';
+import { reactive, ref } from 'vue';
 
 Vue.config.productionTip = false;
-
-beforeAll(() => {
-  Vue.use(VueCompositionApi);
-});
 
 function flushPromises() {
   return new Promise(function(resolve) {
