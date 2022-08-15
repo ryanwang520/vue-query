@@ -1,5 +1,7 @@
 # vue-query [![npm package](https://badgen.net/npm/v/@baoshishu/vue-query)](https://www.npmjs.com/package/@baoshishu/vue-query) [![Actions Status](https://github.com/baoshishu/vue-query/workflows/CI/badge.svg)](https://github.com/baoshishu/vue-query/actions)
 
+https://github.com/ryanwang520/vue-query
+
 > Composition API for fetching asynchronous data in Vue.
 
 - 🔥 Simple API
@@ -111,9 +113,11 @@ export default createComponent({
   setup() {
     const fetcher = name =>
       fetch(`https://api.github.com/users/${name}`).then(res => res.json());
-    return useQuery(name, fetcher, { success(){
-      console.log('fetch success')
-    }});
+    return useQuery(name, fetcher, {
+      success() {
+        console.log('fetch success');
+      },
+    });
   },
 });
 ```
@@ -129,11 +133,10 @@ export default createComponent({
     condition = ref(false);
     const fetcher = name =>
       fetch(`https://api.github.com/users/${name}`).then(res => res.json());
-    
-    setTimeout(()=>{
-      condition.value = true // only fetch if condition is set to true
 
-    }, 1000)
+    setTimeout(() => {
+      condition.value = true; // only fetch if condition is set to true
+    }, 1000);
     return useQuery(name, fetcher, {
       enabled: condition,
     });
