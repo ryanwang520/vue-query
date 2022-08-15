@@ -1,4 +1,4 @@
-# vue-query [![npm package](https://badgen.net/npm/v/@baoshishu/vue-query)](https://www.npmjs.com/package/@baoshishu/vue-query) [![Actions Status](https://github.com/baoshishu/vue-query/workflows/CI/badge.svg)](https://github.com/baoshishu/vue-query/actions)
+# vue-query [![npm package](https://badgen.net/npm/v/@ryanwang520/vue-query)](https://www.npmjs.com/package/@ryanwang520/vue-query) [![Actions Status](https://github.com/ryanwang520/vue-query/workflows/CI/badge.svg)](https://github.com/ryanwang520/vue-query/actions)
 
 https://github.com/ryanwang520/vue-query
 
@@ -13,7 +13,7 @@ https://github.com/ryanwang520/vue-query
 ## Installation
 
 ```sh
-npm install @baoshishu/vue-query
+npm install @ryanwang520/vue-query
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ npm install @baoshishu/vue-query
 
 <script>
 import { createComponent } from '@vue/composition-api';
-import { useQuery } from '@baoshishu/vue-query';
+import { useQuery } from '@ryanwang520/vue-query';
 
 export default createComponent({
   setup() {
@@ -107,7 +107,7 @@ Fetch success callback.
 
 ```javascript
 import { createComponent } from '@vue/composition-api';
-import { useQuery } from '@baoshishu/vue-query';
+import { useQuery } from '@ryanwang520/vue-query';
 
 export default createComponent({
   setup() {
@@ -126,7 +126,7 @@ Conditionally fetch data, `condition` can be a `Ref` or normal tracking function
 
 ```javascript
 import { createComponent } from '@vue/composition-api';
-import { useQuery } from '@baoshishu/vue-query';
+import { useQuery } from '@ryanwang520/vue-query';
 
 export default createComponent({
   setup() {

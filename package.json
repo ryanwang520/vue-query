@@ -35,7 +35,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@baoshishu/vue-query",
+  "name": "@ryanwang520/vue-query",
   "author": "Ryan Wang",
   "devDependencies": {
     "@types/jest": "^26.0.20",
